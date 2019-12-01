@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <link rel="bookmark"  type="image/x-icon"  href="./static/favicon.ico"/>
+    <link rel="shortcut icon" href="./static/favicon.ico">
+
+    <!--<meta name="viewport" content="width=device-width,initial-scale=1.0">-->
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=3,minimum-scale=1,minimal-ui">
+    <meta name="viewport" content="width=1280">
+    <script src="static/js/ws/sockjs.min.js"></script>
+    <script src="static/js/ws/stomp.min.js"></script>
+    <script src="static/spc/js/echarts.min.js"></script><!--echarts2.0版本，为控制图所用-->
+
+    <!-- <title>iQIS | 工厂与供应链质量管理平台</title> -->
+    <title>无忧QC-工厂与供应链质量云</title>
+    <style>
+  .ieInfo{
+    position: fixed;
+    width:100%;
+    height:100%;
+    background:#e2e2e2;
+    z-index:1111;
+    border-radius: 15px;
+    box-shadow: 1px 0px 3px #e9e9e9;
+    padding:20px;
+    font-size:16px;
+    display: none;
+    top:0;
+  }
+  .ieInfo .img{
+    float: left;
+    width:47%;
+    height:100%;
+  }
+ .ieInfo .text{
+    float: left;
+    width:50%;
+    height:100%;
+  }
+  .log{
+    width:100%;
+    height:150px;
+  }
+  .style{
+    width:100%;
+    height:100%;
+    list-style: none;
+  }
+  .log .style li {
+    width:80px;
+    height:140px;
+    float:left;
+    text-align:center;
+    margin-right:20px
+    
+  }
+  .log .style li a{
+    display: inline-block;
+    height:100%;
+    width:100%;
+  }  
+  .log .style li a .icon{
+    display:inline-block;
+    width: 80px;
+    height:80px
+  }
+  .log .style li a .icon img{
+    width:100%;
+    height:100%;
+    border:none
+  }
+  .inputs{
+    width:340px;
+    height:35px;
+    position: relative;
+  }
+  .inputs input{
+    width:100%;
+    border:1px solid #e3e3e3;
+    height:30px;
+    padding:5px 10px;
+    margin-bottom:30px;
+    line-height:25px;
+    box-sizing:unset!important;
+    -ms-box-sizing:unset!important;
+    -moz-box-sizing: unset!important;
+  }
+  .inputs input::-ms-clear, .inputs input::-ms-reveal{display: none;}
+  .inputs input:focus{
+    border: 1px solid #2188ff;
+    outline: none;
+    box-shadow: inset 0 1px 2px rgba(27,31,35,0.075), 0 0 0 0.2em rgba(3,102,214,0.3);
+  }
+  .inputs .button{
+    display: inline-block;
+    position:absolute;
+    height:29px;
+    width:60px;
+    font-size:14px;
+    top:0;
+    right:0px;
+    line-height:20px;
+    background:#f3f3f3
+  }
+  .inputs input[disabled='disabled']{
+    background:#fff;
+    color:#666;
+  }
+  @media only screen and (min-width: 320px){
+        html {
+            font-size: 62.5% !important;
+        }
+    }
+  @media only screen and (min-width: 640px){
+      html {
+          font-size: 150% !important;
+      }
+  }
+  @media only screen and (min-width: 750px){
+      html {
+          font-size: 187.5% !important;
+      }
+  }
+  @media only screen and (min-width: 1242px){
+      html {
+          font-size: 200% !important;
+      }
+  }
+  </style>
+   <script>
+    var IEVersion = function(){
+          var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串  
+          var isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器  
+          var isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器  
+          var isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
+          if(isIE) {
+              var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+              reIE.test(userAgent);
+              var fIEVersion = parseFloat(RegExp["$1"]);
+              if(fIEVersion == 7) {
+                  return 7;
+              } else if(fIEVersion == 8) {
+                  return 8;
+              } else if(fIEVersion == 9) {
+                  return 9;
+              } else if(fIEVersion == 10) {
+                  return 10;
+              } else {
+                  return 6;//IE版本<=7
+              }   
+          } else if(isEdge) {
+              return 'edge';//edge
+          } else if(isIE11) {
+              return 11; //IE11  
+          }else{
+              return -1;//不是ie浏览器
+          }
+      }
+
+  </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+    <div class="ieInfo" id='IES'>
+      <div style="width:80%;height:100%;margin:0px auto;">
+      <div class="img" style='position:relative'>
+        <div style="text-align: center;margin-bottom: 18px;width:165px;height: 55px;position:absolute;top:50%;left:50%;margin-top:-25px;margin-left:-80px;background: url('./static/img/login-page-logo.png') no-repeat"></div>
+      </div>
+      <div class="text">
+        <div style='width:100%;height:50%;border-bottom:3px dashed #eeeeee'>
+        <br>
+        <br>
+        <p style='margin-top:35%'><span style='color:red'>温馨提示：</span>由于微软已停止对IE浏览器的支持，建议您更换其它浏览器，或使用IE9以上版本的浏览器~</p>
+        <br>
+        <br>
+        <div class="inputs">
+          <input type="text" id='inputs' value="" readonly onclick="copyText()" > <span class='button' onclick="copyText()" id='btn'>点我复制</span> 
+        </div>
+      </div>
+        <div class="log" style="margin-top:50px">
+          <ul class='style'>
+            <li class='chrome'>
+              <a href="http://www.googlechromer.cn/">
+                <div class="icon">
+                  <img src="./static/img/chrome-logo.png" alt="">
+                </div>
+                <div>Chrome</div>
+              </a>
+            </li>
+            <li class='FireBox'>
+              <a href="http://www.firefox.com.cn/">
+                <div class="icon">
+                  <img src="./static/img/firebox.png" alt="">
+                </div>
+                <div>FireBox</div>
+              </a>
+            </li>
+            <li class='IE'>
+              <a href="https://support.microsoft.com/zh-cn/help/17621/internet-explorer-downloads">
+                <div class="icon">
+                  <img src="./static/img/IE.png" alt="">
+                </div>
+                <div>IE10~11</div>
+              </a>
+            </li>
+          </ul>
+        </div>          
+      </div>
+    </div>
+    </div>
+  </body>
+ <script>
+      var copyText = function() {
+      var text = document.getElementById("inputs").value;
+      var input = document.getElementById("inputs");
+      input.value = text; // 修改文本框的内容
+      input.select(); // 选中文本
+      document.execCommand("copy"); // 执行浏览器复制命令
+      alert("复制成功");
+    }
+    var ie = 10;
+    ie = IEVersion();
+    if(ie == 9){
+      var IES = document.getElementById('IES');
+      IES.style.display = 'block'
+    }   
+      try{
+        var objs = document.getElementById('IES');
+        var inputs = document.getElementById('inputs');
+        var btn = document.getElementById('btn');
+        var url = window.location.href;
+        inputs.value = url;
+      }catch(e){
+        //console.log(e)
+      }
+      if((ie+0)<=9&&ie!=-1){
+        var objs = document.getElementById('IES');
+        objs.style.display = 'block'
+        if(ie < 9){
+          btn.style.right = '-20px'
+          btn.style.height='40px'
+          btn.style.lineHeight='40px'
+        }
+        if(ie == 9){
+          inputs.style.padding = 0
+          btn.style.lineHeight='30px'
+        }
+      }      
+ </script>
+</html>

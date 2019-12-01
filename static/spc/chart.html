@@ -1,0 +1,2366 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DataAnalysis</title>
+
+    <link href="lib/h-ui/css/H-ui.min.css" rel="stylesheet" />
+    <link href="lib/h-ui.admin/css/H-ui.admin.css" rel="stylesheet" />
+    <link href="lib/Hui-iconfont/1.0.8/iconfont.css" rel="stylesheet" />
+    <link href="lib/h-ui.admin/skin/green/skin.css" rel="stylesheet" />
+    <link href="lib/h-ui.admin/css/style.css" rel="stylesheet" />
+    <link href="css/DataAnlysisStyle.css" rel="stylesheet" />
+    <style>
+        .red {
+            color: #f00;
+        }
+
+        .gray {
+            color: #000 !important;
+            font-weight: bold;
+        }
+
+        .tabCon em {
+            font-size: 10px;
+            color: #999;
+        }
+
+
+        .clearfix:after{
+            display: block;
+            clear: both;
+            visibility: hidden;
+            height: 0;
+            content: "";
+        }
+        .tabBar span{
+            height: 34px;
+            line-height: 34px;
+            background: #FAFAFA;
+            border-right: 1px solid#E9E9E9;
+            color: #8B8B8B;
+            font-weight: normal;
+        }
+        .tabBar span:first-child{
+            border-left:1px solid #E9E9E9;
+        }
+        .tabBar span.current {
+            background-color: #fff;
+            color: #418FEE;
+            border-bottom: 2px solid #418fee;
+            height: 32px;
+        }
+        .table-bordered th, .table-bordered td {
+            border-left: 0;
+        }
+        .table-bordered th:first-child, .table-bordered td:first-child {
+            border-left: 1px solid #e9e9e9;
+        }
+        .table-bg thead th{
+            background: #FAFAFA;
+        }
+        .table th, .table td {
+            color: #5C5C5C!important;
+            font-weight: normal;
+            height:34px;
+            padding:0;
+            font-size:14px;
+            border-color:#E9E9E9;
+        }
+        .label-danger{
+            background:transparent;
+            color:#FF1A2E;
+        }
+        .label-success{
+            background:transparent;
+            color:#418FEE;
+        }
+        .table-bordered {
+            border-color:#E9E9E9;
+        }
+        
+    </style>
+</head>
+
+<body data-type="index" style="" class="main">
+    <div class="am-tabs" id="tab-category">
+        <div class="tabBar cl" style="width:100%;border:0;text-align:center;height:34px;margin:3px 0 23px 0;">
+            <div class="clearfix" style="display:inline-block;border:1px solid #E9E9E9;">
+                <span id="firstChartTab">平均值图</span>
+                <span id="secondChartTab">标准差图</span>
+                <span class="">Cpk参数</span>
+                <span id="sampleRunChartTab">样本运行图</span>
+                <span id="avgRunChartTab">平均值运行图</span>
+                <span id="passRateRunChartTab">合格率趋势图</span>
+            </div>
+        </div>
+        <div class="am-tabs-bd HuiTab" style="height:100%;">
+            <div class="am-tab-panel tabCon">
+                <div id="firstControlChart"></div>
+                <div class="Chart_note" style="margin-top:-0px;text-align:center;height:30px;">
+                    <span>Total:</span>
+                    <em class="Total">0</em>
+                    <span>SampleSize:</span>
+                    <em class="GroupSize">0</em>
+                    <span>Group:</span>
+                    <em class="Group">0</em>
+                    <span>Max:</span>
+                    <em class="Max">0</em>
+                    <span>Min:</span>
+                    <em class="Min">0</em>
+                    <span>Mean:</span>
+                    <em class="X_Avg">0</em>
+                    <span>Dev:</span>
+                    <em class="S_avgs">0</em>
+                    <span>CPK:</span>
+                    <em class="Cpk">0</em>
+                    <span>PPK:</span>
+                    <em class="Ppk">0</em>
+                    <span>Ca:</span>
+                    <em class="Ca">0</em>
+                    <span>Cp:</span>
+                    <em class="Cp">0</em>
+                    <span>Pp:</span>
+                    <em class="Pp">0</em>
+                </div>
+            </div>
+            <div class="am-tab-panel am-active tabCon">
+                <div id="secondControlChart" style="display:none;"></div>
+                <div id="stdevControlChart" style="display:none;"></div>
+                <div id="MovingRangeControlChart" style="display:none;"></div>
+                <div class="Chart_note" style="margin-top:-0px;text-align:center;height:30px;">
+                    <span>Total:</span>
+                    <em class="Total">0</em>
+                    <span>SampleSize:</span>
+                    <em class="GroupSize">0</em>
+                    <span>Group:</span>
+                    <em class="Group">0</em>
+                    <span>Max:</span>
+                    <em class="Max">0</em>
+                    <span>Min:</span>
+                    <em class="Min">0</em>
+                    <span>Mean:</span>
+                    <em class="X_Avg">0</em>
+                    <span>Dev:</span>
+                    <em class="S_avgs">0</em>
+                    <span>CPK:</span>
+                    <em class="Cpk">0</em>
+                    <span>PPK:</span>
+                    <em class="Ppk">0</em>
+                    <span>Ca:</span>
+                    <em class="Ca">0</em>
+                    <span>Cp:</span>
+                    <em class="Cp">0</em>
+                    <span>Pp:</span>
+                    <em class="Pp">0</em>
+                </div>
+            </div>
+            <div class="am-tab-panel tabCon noChar" id='cpkParameters' style="display: flex;height:420px;">
+                <div id="CPK" style="flex:2;height:420px;"></div>
+                <div class="cpk_node" id="cpkNode" style="flex:3;margin-left:30px;">
+                    <!-- <dl>
+                        <dt>统计值</dt>
+                        <dd>样本数:<span class="Total">0</span></dd>
+                        <dd>平均值:<span class="X_Avg">0</span></dd>
+                        <dd>最大值:<span class="Max">0</span></dd>
+                        <dd>最小值:<span class="Min">0</span></dd>
+                    </dl> -->
+                    <div class="w" style="display: flex;">
+                        <ul class="cpk_list" style="height:152px;flex:1">
+                            <li class="cpk_li">统计值</li>
+                            <li>
+                                <span>样本数:</span>
+                                <span class="Total">0</span>
+                            </li>
+                            <li>
+                                <span>平均值:</span>
+                                <span class="X_Avg">0</span>
+                            </li>
+                            <li>
+                                <span>最大值:</span>
+                                <span class="Max">0</span>
+                            </li>
+                            <li>
+                                <span>最小值:</span>
+                                <span class="Min">0</span>
+                            </li>
+                        </ul>
+                        
+                        <ul class="cpk_list" style="height:152px;flex:1">
+                            <li class="cpk_li">常量</li>
+                            <li>
+                                <span>子组大小:</span>
+                                <span class="GroupSize">0</span>
+                            </li>
+                            <li>
+                                <span>规格上限:</span>
+                                <span class="USL">0</span>
+                            </li>
+                            <li>
+                                <span>目标值:</span>
+                                <span class="Target">0</span>
+                            </li>
+                            <li>
+                                <span>规格下线:</span>
+                                <span class="LSL">0</span>
+                            </li>
+                        </ul>
+                        <ul class="cpk_list" style="height:152px;flex:2">
+                            <li class="cpk_li">计算值</li>
+                            <li style="display: flex;justify-content: space-between;">
+                                <div>
+                                    <span>标准差(组间):</span>
+                                    <span class="GroupSTDEVA">0</span>
+                                </div>
+                                <div>
+                                    <span>标准差(组内):</span>
+                                    <span class="InGroupSTDEVA">0</span>
+                                </div>
+                            </li>
+                            <li>
+                                <span>标准差(整体):</span>
+                                <span class="S_avgs">0</span>
+                            </li>
+                            <li style="display: flex;justify-content: space-between;">
+                                <div>
+                                    <span>正3倍标准差:</span>
+                                    <span class="Plus3STDEV">0</span>
+                                </div>
+                                <div>
+                                    <span>负3倍标准差:</span>
+                                    <span class="Minus3STDEV">0</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="w" style="display: flex;">
+                        <ul class="cpk_list" style="height:104px;flex:2">
+                            <li class="cpk_li">工序能力(组内)</li>
+                            <li style="display: flex;justify-content: space-between;">
+                                <div>
+                                    <span>Cpk:</span>
+                                    <span class="Cpk">0</span>
+                                </div>
+                                <div>
+                                    <span>Cp:</span>
+                                    <span class="Cp">0</span>
+                                </div>
+                            </li>
+                            <li style="display: flex;justify-content: space-between;">
+                                <div>
+                                    <span>CPL:</span>
+                                    <span class="CPL">0</span>
+                                </div>
+                                <div>
+                                    <span>CPU:</span>
+                                    <span class="CPU">0</span>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="cpk_list" style="height:104px;flex:2">
+                            <li class="cpk_li">工序能力(整体)</li>
+                            <li style="display: flex;justify-content: space-between;">
+                                <div>
+                                    <span>Ppk:</span>
+                                    <span class="Ppk">0</span>
+                                </div>
+                                <div>
+                                    <span>Pp:</span>
+                                    <span class="Pp">0</span>
+                                </div>
+                            </li>
+                            <li style="display: flex;justify-content: space-between;">
+                                <div>
+                                    <span>PPL:</span>
+                                    <span class="PPL">0</span>
+                                </div>
+                                <div>
+                                    <span>PPU:</span>
+                                    <span class="PPU">0</span>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="cpk_list" style="height:104px;flex:1">
+                            <li class="cpk_li">其它值</li>
+                            <li>
+                                <span>Ca:</span>
+                                <span class="Ca">0</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="w" style="display: flex">
+                        <ul class="cpk_list" style="flex:1;height:128px;">
+                            <li class="cpk_li">实测性能</li>
+                            <li>
+                                <span>PPM
+                                    < LSL:</span> <span class="PPM_LSL">0</span>
+                            </li>
+                            <li>
+                                <span>PPM > USL:</span>
+                                <span class="PPM_USL">0</span>
+                            </li>
+                            <li>
+                                <span>PPM Total:</span>
+                                <span class="PPM">0</span>
+                            </li>
+                        </ul>
+                        <ul class="cpk_list" style="flex:1;height:128px;">
+                            <li class="cpk_li">预期性能(组内)</li>
+                            <li>
+                                <span>PPM
+                                    < LSL:</span> <span class="GroupUnderLSL">0</span>
+                            </li>
+                            <li>
+                                <span>PPM > USL:</span>
+                                <span class="GroupUpUSL">0</span>
+                            </li>
+                            <li>
+                                <span>PPM Total:</span>
+                                <span class="GroupPPM">0</span>
+                            </li>
+                        </ul>
+                        <ul class="cpk_list" style="flex:1;height:128px;">
+                            <li class="cpk_li">预期性能(整体)</li>
+                            <li>
+                                <span>PPM
+                                    < LSL:</span> <span class="TotalUnderLSL">0</span>
+                            </li>
+                            <li>
+                                <span>PPM > USL:</span>
+                                <span class="TotalUpUSL">0</span>
+                            </li>
+                            <li>
+                                <span>PPM Total:</span>
+                                <span class="TotalPPM">0</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="am-tab-panel am-active tabCon">
+                <div id="sampleRunChart"></div>
+                <div class="Chart_note" style="text-align:center;height:30px; ">
+                    <span>Total:</span>
+                    <em class="Total">0</em>
+                    <span>SampleSize:</span>
+                    <em class="GroupSize">0</em>
+                    <span>Group:</span>
+                    <em class="Group">0</em>
+                    <span>Max:</span>
+                    <em class="Max">0</em>
+                    <span>Min:</span>
+                    <em class="Min">0</em>
+                    <span>Mean:</span>
+                    <em class="X_Avg">0</em>
+                    <span>Dev:</span>
+                    <em class="S_avgs">0</em>
+                    <span>CPK:</span>
+                    <em class="Cpk">0</em>
+                    <span>PPK:</span>
+                    <em class="Ppk">0</em>
+                    <span>Ca:</span>
+                    <em class="Ca">0</em>
+                    <span>Cp:</span>
+                    <em class="Cp">0</em>
+                    <span>Pp:</span>
+                    <em class="Pp">0</em>
+                </div>
+            </div>
+            <div class="am-tab-panel tabCon">
+                <div id="avgRunChart"></div>
+                <div class="Chart_note" style="text-align:center;height:30px;">
+                    <span>Total:</span>
+                    <em class="Total">0</em>
+                    <span>SampleSize:</span>
+                    <em class="GroupSize">0</em>
+                    <span>Group:</span>
+                    <em class="Group">0</em>
+                    <span>Max:</span>
+                    <em class="Max">0</em>
+                    <span>Min:</span>
+                    <em class="Min">0</em>
+                    <span>Mean:</span>
+                    <em class="X_Avg">0</em>
+                    <span>Dev:</span>
+                    <em class="S_avgs">0</em>
+                    <span>CPK:</span>
+                    <em class="Cpk">0</em>
+                    <span>PPK:</span>
+                    <em class="Ppk">0</em>
+                    <span>Ca:</span>
+                    <em class="Ca">0</em>
+                    <span>Cp:</span>
+                    <em class="Cp">0</em>
+                    <span>Pp:</span>
+                    <em class="Pp">0</em>
+                </div>
+            </div>
+            <div class="am-tab-panel tabCon">
+                <div id="passRateRunChart"></div>
+                <div class="Chart_note" style="text-align:center;height:30px;">
+                    <span>Total:</span>
+                    <em class="Total">0</em>
+                    <span>SampleSize:</span>
+                    <em class="GroupSize">0</em>
+                    <span>Group:</span>
+                    <em class="Group">0</em>
+                    <span>Max:</span>
+                    <em class="Max">0</em>
+                    <span>Min:</span>
+                    <em class="Min">0</em>
+                    <span>Mean:</span>
+                    <em class="X_Avg">0</em>
+                    <span>Dev:</span>
+                    <em class="S_avgs">0</em>
+                    <span>CPK:</span>
+                    <em class="Cpk">0</em>
+                    <span>PPK:</span>
+                    <em class="Ppk">0</em>
+                    <span>Ca:</span>
+                    <em class="Ca">0</em>
+                    <span>Cp:</span>
+                    <em class="Cp">0</em>
+                    <span>Pp:</span>
+                    <em class="Pp">0</em>
+                </div>
+            </div>
+        </div>
+
+        <div class="clear"></div>
+
+        <div class="cl pd-5 bg-1 bk-gray hide" style="clear:both;">
+            <span class="l">
+                <a href="javascript:;" onclick=" sampleAdd();" class="btn btn-primary radius">
+                    <i class="Hui-iconfont">&#xe600;</i> 添加
+                </a>
+            </span>
+        </div>
+
+        <div id="sample_add" class="hide pd-10" style="overflow-x:hidden;">
+
+        </div>
+
+
+        <div class="clear"></div>
+        <div id="example">
+
+        
+            <div class="example1">
+                <table class="table table-border table-bordered table-hover table-bg table-sort text-c">
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>样本</th>
+                            <th>状态</th>
+                            <th>平均值</th>
+                            <th>极差值</th>
+                            <th>标准差</th>
+                            <th>最大值</th>
+                            <th>最小值</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="example1" id="tableHeight">
+                <table class="table table-border table-bordered table-hover table-bg table-sort text-c">
+                    <tbody>
+                        <tr>
+                            <td colspan="8"> </td>
+
+                        </tr>
+                    </tbody>
+                </table>  
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/echarts.min.js"></script>
+<script src="lib/h-ui/js/H-ui.min.js"></script>
+<script src="lib/layer/2.4/layer.js"></script>
+<script src="lib/h-ui.admin/js/H-ui.admin.js"></script>
+<script src="js/ecStat.js"></script>
+<script src="js/highcharts.js"></script>
+<script src="js/highcharts-more.js"></script>
+<script src="js/exporting.js"></script>
+<script src="js/histogram-bellcurve.js"></script>
+<script src="js/Spc.js"></script>
+<script>
+    //***************************************************************参数格式（注意）***********************************************************
+    var analysisData = {
+        data: [0.48,
+            0.49,
+            0.49,
+            0.49,
+            0.5,
+            0.52,
+            0.51,
+            0.51,
+            0.51,
+            0.51,
+            0.5,
+            0.51,
+            0.51,
+            0.5,
+            0.5,
+            0.49,
+            0.49,
+            0.49,
+            0.5,
+            0.5,
+            0.49,
+            0.51,
+            0.5,
+            0.5,
+            0.52,
+            0.51,
+            0.51,
+            0.51,
+            0.51,
+            0.49
+        ], //测量数据
+        groupSize: 1, //每一组的容量大小
+        targetValue: 0.5, // 目标值
+        usl: 0.55, //上限
+        lsl: 0.45, //下限
+        chartType: 'IMR', //只支持三种XR(均值极差图)，XS(均值标准差图)，IMR(移动极差图)  类型图
+        // rules: [{id: 1}, {id: 2,seriesCount: 5}, {id: 5,seriesCount: 9,insideCount: 5}],
+        rules:[],
+        isConvert:0,
+        //id 是规则的id  seriesCount是连续数目参数  insideCount是存在数目参数
+        //8大判异规则说明 https://wenku.baidu.com/view/f1f7a88e680203d8ce2f2412.html
+        // 1    1个点在A区以外
+        // 2    连续9点落在中心线同一侧
+        // 3    连续6点递增或递减
+        // 4    连续14点中相邻点交替上下
+        // 5    连续3点中有2点落在中心线同一侧的B区以外
+        // 6    连续5点中有4点落中心线同一侧的C区以外
+        // 7    连续15点落在中心线两侧的C区内
+        // 8    连续8点落在中心线两侧且无一在C区内
+
+    };
+    //if(window.parent.vm)
+    if (window.parent.vm) {
+        // analysisData.rules = [];
+        console.log();
+        
+        analysisData.data = window.parent.vm.data;
+        analysisData.groupSize = window.parent.vm.groupSize;
+        analysisData.targetValue = window.parent.vm.targetValue;
+        analysisData.usl = window.parent.vm.usl;
+        analysisData.lsl = window.parent.vm.lsl;
+        analysisData.chartType = window.parent.vm.chartType;
+        analysisData.rules = window.parent.vm.rules || [];
+        analysisData.isConvert = window.parent.vm.isConvert;
+        
+    }
+    //度分秒转换
+    function formatDegree(value) {
+        value = Math.abs(value);
+        var v1 = Math.floor(value);//度
+        var v2 = Math.floor((value - v1) * 60);//分
+        var v3 = Math.round((value - v1) * 3600 % 60);//秒
+        // 78°29′24″
+        return v1 + '°' + v2 + '′' + v3 + '″';
+    }
+    //显示列表数据
+    function loadTable(data, groupSize) {
+        var str = '';
+        for (var i = 1; i <= groupSize; i++) {
+            str += "  <th style='color:#000;font-size:14px' class='text-c'>样本" + i + "</th>";
+        }
+
+        //表头
+        var strHead = "<th style='color:#000;font-size:14px' class='text-c'>序号</th>" + str +
+            "<th style='color:#000;font-size:14px' class='text-c'>状态</th><th style='color:#000;font-size:14px' class='text-c'>平均值</th><th style='color:#000;font-size:14px' class='text-c'>极差值</th><th style='color:#000;font-size:14px' class='text-c'>标准差</th><th style='color:#000;font-size:14px' class='text-c'>最大值</th><th style='color:#000;font-size:14px' class='text-c'>最小值</th>";
+        $("#example thead").html(strHead);
+
+        var strTbody = ""; //行数
+        if (data.length == 0) {
+            $("#example tbody").html("<tr><td colspan=\"8\">暂无数据 </td></tr>");
+        } else {
+            for (var i = 0; i < data.length; i++) {
+
+                var tbodysamplecolumn = ""; //样品列数
+                for (var j = 0; j < data[i].DataInfos.length; j++) {
+                    console.log(data[i].DataInfos[j].MeasureData,"data[i].DataInfos[j].MeasureData");
+                    if(analysisData.isConvert == 1){
+                        let value = data[i].DataInfos[j].MeasureData
+                        // 78°29′24″
+                        value = Math.abs(value);
+                        let v1 = Math.floor(value);//度
+                        let v2 = Math.floor((value - v1) * 60);//分
+                        let v3 = Math.round((value - v1) * 3600 % 60);//秒
+                        data[i].DataInfos[j].MeasureData =  v1 + '°' + v2 + '′' + v3 + '″';
+                    }
+                    tbodysamplecolumn += " <td class ='" + (data[i].DataInfos[j].Status == 0 ? "gray" : "red") +
+                        "' style='text-align:'>" + data[i].DataInfos[j].MeasureData + "</td>";
+                }
+                var statusMsg;
+                var statusClass;
+                switch (data[i].Status) {
+                    case 0:
+                        statusMsg = "正常";
+                        statusClass = "label label-success  radius";
+                        break;
+                    case 1:
+                        statusMsg = "失控";
+                        statusClass = "label label-danger  radius ' onclick='layer.alert(\"" + data[i].ErrMsg + "\")";
+                        break;
+                    case 2:
+                        statusMsg = "已处理";
+                        statusClass = "label label-primary  radius";
+                        break;
+                }
+                if(analysisData.isConvert == 1){
+                        if(data[i].GroupAvg == 'N/A'){
+                            data[i].GroupAvg =data[i].GroupAvg 
+                        }else{
+                            let value = data[i].GroupAvg
+                            // 78°29′24″
+                            value = Math.abs(value);
+                            let v1 = Math.floor(value);//度
+                            let v2 = Math.floor((value - v1) * 60);//分
+                            let v3 = Math.round((value - v1) * 3600 % 60);//秒
+                            data[i].GroupAvg =  v1 + '°' + v2 + '′' + v3 + '″';
+                        }
+                        if(data[i].GroupRange == 'N/A'){
+                            data[i].GroupRange =data[i].GroupRange 
+                        }else{
+                            let value1 = data[i].GroupRange
+                            // 78°29′24″
+                            value1 = Math.abs(value1);
+                            let j1 = Math.floor(value1);//度
+                            let j2 = Math.floor((value1 - j1) * 60);//分
+                            let j3 = Math.round((value1 - j1) * 3600 % 60);//秒
+                            data[i].GroupRange =  j1 + '°' + j2 + '′' + j3 + '″';
+                        }
+                        if(data[i].GroupStdev == 'N/A'){
+                            data[i].GroupStdev =data[i].GroupStdev
+                        }else{
+                            let value2 = data[i].GroupStdev
+                            // 78°29′24″
+                            value2 = Math.abs(value2);
+                            let s1 = Math.floor(value2);//度
+                            let s2 = Math.floor((value2 - s1) * 60);//分
+                            let s3 = Math.round((value2 - s1) * 3600 % 60);//秒
+                            data[i].GroupStdev =  s1 + '°' + s2 + '′' + s3 + '″';
+                        }
+                        
+
+                        if(data[i].GroupMax == 'N/A'){
+                            data[i].GroupMax =data[i].GroupMax 
+                        }else{
+                            let value3 = data[i].GroupMax
+                            // 78°29′24″
+                            value3 = Math.abs(value3);
+                            let t1 = Math.floor(value3);//度
+                            let t2 = Math.floor((value3 - t1) * 60);//分
+                            let t3 = Math.round((value3 - t1) * 3600 % 60);//秒
+                            data[i].GroupMax =  t1 + '°' + t2 + '′' + t3 + '″';
+                        }
+                        
+
+                        if(data[i].GroupMin == 'N/A'){
+                            data[i].GroupMin =data[i].GroupMin
+                        }else{
+                            let value4 = data[i].GroupMin
+                            // 78°29′24″
+                            value4 = Math.abs(value4);
+                            let z1 = Math.floor(value4);//度
+                            let z2 = Math.floor((value4 - z1) * 60);//分
+                            let z3 = Math.round((value4 - z1) * 3600 % 60);//秒
+                            data[i].GroupMin =  z1 + '°' + z2 + '′' + z3 + '″';
+                        }
+                    }
+                strTbody += "<tr class='text-c'  style='font-weight:600'>" +
+                    "<td class='xuhao'>" + (i + 1) + "</td>" +
+                    tbodysamplecolumn +
+                    "<td ><span class ='" + statusClass + "'>" + statusMsg + "</span></td>" +
+                    "<td >" + data[i].GroupAvg + "</td>" +
+                    "<td >" + data[i].GroupRange + "</td>" +
+                    "<td >" + data[i].GroupStdev + "</td>" +
+                    "<td >" + data[i].GroupMax + "</td>" +
+                    "<td >" + data[i].GroupMin + "</td></tr>";
+                    /* 
+                    "<td >" + analysisData.isConvert == 0 ? data[i].GroupAvg : formatDegree(data[i].GroupAvg)  + "</td>" +
+                    "<td >" + analysisData.isConvert == 0 ? data[i].GroupRange : formatDegree(data[i].GroupRange) + "</td>" +
+                    "<td >" + analysisData.isConvert == 0 ? data[i].GroupStdev : formatDegree(data[i].GroupStdev) + "</td>" +
+                    "<td >" + analysisData.isConvert == 0 ? data[i].GroupMax : formatDegree(data[i].GroupMax) + "</td>" +
+                    "<td >" + analysisData.isConvert == 0 ? data[i].GroupMin : formatDegree(data[i].GroupMin) + "</td></tr>";
+                    */
+            }
+            $("#example tbody").html(strTbody);
+            if(groupSize==8){
+                $('#example td,#example th').css('width',100/8+'%')
+            }else{
+                $('#example td,#example th').css('width',100/12+'%')
+            }
+
+        }
+    }
+
+
+    function loadSize() {
+        if (analysisData.chartType == "XS" || analysisData.chartType == "XR" || analysisData.chartType == "IMR")
+            firstControlChart.resize();
+        if (analysisData.chartType == "XR")
+            secondControlChart.resize();
+        if (analysisData.chartType == "XS")
+            stdevControlChart.resize();
+        if (analysisData.chartType == "IMR")
+            MovingRangeControlChart.resize();
+        sampleRunChart.resize();
+        avgRunChart.resize();
+        passRateRunChart.resize();
+    }
+    //设置高度，宽度
+    var tabs_width = $('.main').width(); //var tabs_width = screen.width;
+    //浏览器宽度-body高度
+    //var other_height =window.screen.availHeight-110;
+    var other_height = $('.main').height(); //var other_height = screen.availHeight - (window.outerHeight - window.top.document.body.clientHeight);
+    other_height = 714;
+    //  var other_height = $(window).height();//获取高度
+    // $(".am-tabs").css('height', other_height / 2);
+    $(".table_list").css('height', other_height / 2);
+    // $(".am-tabs-bd").css('height', other_height / 2);
+    $("#firstControlChart").css('width', tabs_width);
+    $("#secondControlChart").css('width', tabs_width);
+    $("#stdevControlChart").css('width', tabs_width);
+    $("#MovingRangeControlChart").css('width', tabs_width);
+    $("#sampleRunChart").css('width', tabs_width);
+    $("#avgRunChart").css('width', tabs_width);
+    $("#passRateRunChart").css('width', tabs_width);
+    // $("#CPK").css('width', tabs_width / 3);
+    // $(".example1").css('height', other_height / 2 - 30 - 48 - 20);
+    $("#firstControlChart").css('height', other_height / 2 - 30);
+    // $(".noChar").css('height', other_height / 2);
+    $("#secondControlChart").css('height', other_height / 2 - 30);
+    $("#stdevControlChart").css('height', other_height / 2 - 30);
+    $("#MovingRangeControlChart").css('height', other_height / 2 - 30);
+    $("#sampleRunChart").css('height', other_height / 2 - 30);
+    $("#avgRunChart").css('height', other_height / 2 - 30);
+    $("#passRateRunChart").css('height', other_height / 2 - 30);
+    // $("#CPK").css('height', other_height / 2);
+    $(window).resize(function () {
+        tabs_width = $('.main').width(); //tabs_width = screen.width;
+        other_height = $('.main').height(); //other_height = screen.availHeight - (window.outerHeight - window.top.document.body.clientHeight);
+        other_height = 714;
+        // $(".am-tabs").css('height', other_height / 2);
+        $(".table_list").css('height', other_height / 2);
+        // $(".am-tabs-bd").css('height', other_height / 2);
+        $("#firstControlChart").css('width', tabs_width);
+        $("#secondControlChart").css('width', tabs_width);
+        $("#stdevControlChart").css('width', tabs_width);
+        $("#MovingRangeControlChart").css('width', tabs_width);
+        $("#sampleRunChart").css('width', tabs_width);
+        $("#avgRunChart").css('width', tabs_width);
+        $("#passRateRunChart").css('width', tabs_width);
+        // $("#CPK").css('width', tabs_width / 3);
+        // $(".example1").css('height', other_height / 2 - 30 - 48 - 20);
+        // $(".noChar").css('height', other_height / 2);
+        $("#firstControlChart").css('height', other_height / 2 - 30);
+        $("#secondControlChart").css('height', other_height / 2 - 30);
+        $("#stdevControlChart").css('height', other_height / 2 - 30);
+        $("#MovingRangeControlChart").css('height', other_height / 2 - 30);
+        $("#sampleRunChart").css('height', other_height / 2 - 30);
+        $("#avgRunChart").css('height', other_height / 2 - 30);
+        $("#passRateRunChart").css('height', other_height / 2 - 30);
+        // $("#CPK").css('height', other_height / 2);
+        if (analysisData.chartType == "XS" || analysisData.chartType == "XR" || analysisData.chartType == "IMR")
+            firstControlChart.resize();
+        if (analysisData.chartType == "XR")
+            secondControlChart.resize();
+        if (analysisData.chartType == "XS")
+            stdevControlChart.resize();
+        if (analysisData.chartType == "IMR")
+            MovingRangeControlChart.resize();
+        sampleRunChart.resize();
+        avgRunChart.resize();
+        passRateRunChart.resize();
+
+    });
+    //----------------------------------初始化图表----------------------------------
+    {
+        //加载图表
+        if (analysisData.chartType == "XR") {
+            var firstControlChart = echarts.init(document.getElementById("firstControlChart"));
+            var secondControlChart = echarts.init(document.getElementById("secondControlChart"));
+            var second = document.getElementById("secondControlChart");
+            var stdev = document.getElementById("stdevControlChart");
+            var moveRange = document.getElementById("MovingRangeControlChart");
+            second.style.display = "block";
+            stdev.style.display = "none";
+            moveRange.style.display = "none";
+            $("#firstChartTab").html("平均图值");
+            $("#secondChartTab").html("极差值");
+        } else if (analysisData.chartType == "XS") {
+            var stdevControlChart = echarts.init(document.getElementById("stdevControlChart"));
+            var firstControlChart = echarts.init(document.getElementById("firstControlChart"));
+            var second = document.getElementById("secondControlChart");
+            var stdev = document.getElementById("stdevControlChart");
+            var moveRange = document.getElementById("MovingRangeControlChart");
+            stdev.style.display = "block";
+            second.style.display = "none";
+            moveRange.style.display = "none";
+            $("#firstChartTab").html("平均图值");
+            $("#secondChartTab").html("标准差值");
+        } else if (analysisData.chartType == "IMR") {
+            var MovingRangeControlChart = echarts.init(document.getElementById("MovingRangeControlChart"));
+            var firstControlChart = echarts.init(document.getElementById("firstControlChart"));
+            var second = document.getElementById("secondControlChart");
+            var stdev = document.getElementById("stdevControlChart");
+            var moveRange = document.getElementById("MovingRangeControlChart");
+            moveRange.style.display = "block";
+            stdev.style.display = "none";
+            second.style.display = "none";
+
+            $("#firstChartTab").html("单值");
+            $("#secondChartTab").html("移动极差");
+        }
+        var sampleRunChart = echarts.init(document.getElementById("sampleRunChart"));
+        var avgRunChart = echarts.init(document.getElementById("avgRunChart"));
+        var passRateRunChart = echarts.init(document.getElementById("passRateRunChart"));
+
+        //控制图-平均值
+        firstControlChartOption = {
+            title: {
+                text: '平均值图',
+                subtext: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            grid: {
+                top: 50,
+                bottom: 20,
+                left: 80,
+                right: 120
+            },
+
+            calculable: true,
+
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: []
+            },
+            yAxis: {
+                type: 'value',
+                name: '均值',
+                scale: true,
+                nameLocation: 'middle',
+                nameGap: 50
+            },
+            series: [{
+                clickable: true,
+                name: '平均值',
+                type: 'line',
+                symbol: 'circle',
+                symbolSize: 8,
+                itemStyle: {
+                    normal: {
+                        color: '#3398DB'
+                    }
+                },
+                lineStyle: {
+                    normal: {
+                        color: '#3398DB'
+                    }
+                },
+                radius: '90%',
+                data: [],
+                markPoint: {
+                    data: [{
+                            type: 'max',
+                            name: '最大值'
+                        },
+                        {
+                            type: 'min',
+                            name: '最小值'
+                        }
+                    ]
+                },
+                markLine: {
+                    precision: 5,
+                    data: [{
+                            name: 'UCL',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#64A600',
+                                    label: {
+                                        formatter: 'UCL {c}'
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            name: 'LCL',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#64A600',
+                                    label: {
+                                        formatter: 'LCL  {c}'
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            name: 'CL',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#64A600',
+                                    label: {
+                                        formatter: 'CL  {c}'
+                                    }
+                                }
+                            },
+                            lineStyle: {
+                                normal: {
+                                    type: 'solid'
+                                }
+                            }
+                        },
+                        {
+                            name: 'USL',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#dd3300',
+                                    label: {
+                                        formatter: 'USL {c}'
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            name: 'LSL',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#dd3300',
+                                    label: {
+                                        formatter: 'LSL  {c}'
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            name: 'Target',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#dd3300',
+                                    label: {
+                                        formatter: 'Target  {c}'
+                                    }
+                                }
+                            },
+                            lineStyle: {
+                                normal: {
+                                    type: 'solid'
+                                }
+                            }
+                        }
+                    ]
+                }
+            }]
+        };
+        if (analysisData.chartType == "XR" || analysisData.chartType == "XS" || analysisData.chartType == "IMR") {
+            firstControlChart.setOption(firstControlChartOption);
+        }
+
+        //控制图-极差值
+        secondControlChartOption = {
+            title: {
+                text: '极差图',
+                subtext: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            grid: {
+                top: 50,
+                bottom: 20,
+                left: 80,
+                right: 120
+            },
+
+            //legend: {
+            //    left: 'right',
+            //    data: ['极差值']
+            //},
+            calculable: true,
+
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: []
+            },
+            yAxis: {
+                type: 'value',
+                name: '极差值',
+                scale: true,
+                nameLocation: 'middle',
+                nameGap: 50
+            },
+            series: [{
+                name: '极差值',
+                type: 'line',
+                symbol: 'circle',
+                symbolSize: 8,
+                itemStyle: {
+                    normal: {
+                        color: '#3398DB'
+                    }
+                },
+                data: [],
+                markPoint: {
+                    data: [{
+                            type: 'max',
+                            name: '最大值'
+                        },
+                        {
+                            type: 'min',
+                            name: '最小值'
+                        }
+                    ]
+                },
+                markLine: {
+                    precision: 5,
+                    data: [{
+                            name: 'CL',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#dd3300',
+                                    label: {
+                                        formatter: 'CL  {c}'
+                                    }
+                                },
+                                precision: 4
+                            },
+                            lineStyle: {
+                                normal: {
+                                    type: 'solid'
+                                }
+                            }
+                        },
+                        {
+                            name: 'UCL',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#dd3300',
+                                    label: {
+                                        formatter: 'UCL {c}'
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            name: 'LCL',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#dd3300',
+                                    label: {
+                                        formatter: 'LCL  {c}'
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            }]
+        };
+        if (analysisData.chartType == "XR") {
+            secondControlChart.setOption(secondControlChartOption);
+        }
+
+        //控制图-移动极差值
+        MovingRangeControlChartOption = {
+            title: {
+                text: '移动极差图',
+                subtext: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            grid: {
+                top: 50,
+                bottom: 20,
+                left: 80,
+                right: 120
+            },
+
+            //legend: {
+            //    left: 'right',
+            //    data: ['极差值']
+            //},
+            calculable: true,
+
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: []
+            },
+            yAxis: {
+                type: 'value',
+                name: '移动极差值',
+                scale: true,
+                nameLocation: 'middle',
+                nameGap: 50
+            },
+            series: [{
+                name: '移动极差值',
+                type: 'line',
+                symbol: 'circle',
+                symbolSize: 8,
+                itemStyle: {
+                    normal: {
+                        color: '#3398DB'
+                    }
+                },
+                data: [],
+                markPoint: {
+                    data: [{
+                            type: 'max',
+                            name: '最大值'
+                        },
+                        {
+                            type: 'min',
+                            name: '最小值'
+                        }
+                    ]
+                },
+                markLine: {
+                    precision: 5,
+                    data: [{
+                            name: 'CL',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#dd3300',
+                                    label: {
+                                        formatter: 'CL  {c}'
+                                    }
+                                },
+                                precision: 4
+                            },
+                            lineStyle: {
+                                normal: {
+                                    type: 'solid'
+                                }
+                            }
+                        },
+                        {
+                            name: 'UCL',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#dd3300',
+                                    label: {
+                                        formatter: 'UCL {c}'
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            name: 'LCL',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#dd3300',
+                                    label: {
+                                        formatter: 'LCL  {c}'
+                                    }
+                                }
+                            }
+                        }
+                        //{ name: '目标值', yAxis: 0.90 }
+                    ]
+                }
+            }]
+        };
+        if (analysisData.chartType == "IMR") {
+            MovingRangeControlChart.setOption(MovingRangeControlChartOption);
+        }
+
+        //控制图-标准差值
+        stdevControlChartOption = {
+            title: {
+                text: '标准差图',
+                subtext: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            grid: {
+                top: 50,
+                bottom: 20,
+                left: 80,
+                right: 120
+            },
+            calculable: true,
+
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: []
+            },
+            yAxis: {
+                type: 'value',
+                name: '标准差',
+                scale: true,
+                nameLocation: 'middle',
+                nameGap: 50
+            },
+            series: [{
+                name: '标准差',
+                type: 'line',
+                symbol: 'circle',
+                symbolSize: 8,
+                itemStyle: {
+                    normal: {
+                        color: '#3398DB'
+                    }
+                },
+                data: [],
+                markPoint: {
+                    data: [{
+                            type: 'max',
+                            name: '最大值'
+                        },
+                        {
+                            type: 'min',
+                            name: '最小值'
+                        }
+                    ]
+                },
+                markLine: {
+                    precision: 5,
+                    data: [{
+                            name: 'CL',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#dd3300',
+                                    label: {
+                                        formatter: 'CL  {c}'
+                                    }
+                                },
+                                precision: 4
+                            },
+                            lineStyle: {
+                                normal: {
+                                    type: 'solid'
+                                }
+                            }
+                        },
+                        {
+                            name: 'UCL',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#dd3300',
+                                    label: {
+                                        formatter: 'UCL {c}'
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            name: 'LCL',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#dd3300',
+                                    label: {
+                                        formatter: 'LCL  {c}'
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            }]
+        };
+        if (analysisData.chartType == "XS") {
+            stdevControlChart.setOption(stdevControlChartOption);
+        }
+
+        //样品运行图
+        sampleRunChartOption = {
+            title: {
+                text: '样本运行图',
+                subtext: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            grid: {
+                left: 80,
+                right: 120
+            },
+            //legend: {
+            //    left:'right',
+            //    data: ['平均值']
+            //},
+            calculable: true,
+
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: [],
+                axisLabel: {
+                    interval: 0, //横轴信息全部显示
+                    rotate: 45 //60度角倾斜显示
+                }
+            },
+            yAxis: {
+                type: 'value',
+                name: '样本值',
+                scale: true,
+                nameLocation: 'middle',
+                nameGap: 50
+            },
+            series: [{
+                name: '样本值',
+                type: 'line',
+                symbol: 'circle',
+                symbolSize: 8,
+                itemStyle: {
+                    normal: {
+                        color: '#3398DB'
+                    }
+                },
+                data: [],
+                markPoint: {
+                    data: [{
+                            type: 'max',
+                            name: '最大值'
+                        },
+                        {
+                            type: 'min',
+                            name: '最小值'
+                        }
+                    ]
+                },
+                markLine: {
+                    precision: 3,
+                    data: [{
+                            name: 'Target',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#64A600',
+                                    label: {
+                                        formatter: 'Target  {c}'
+                                    }
+                                },
+                                precision: 4
+                            },
+                            lineStyle: {
+                                normal: {
+                                    type: 'solid'
+                                }
+                            }
+                        },
+                        {
+                            name: 'USL',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#64A600',
+                                    label: {
+                                        formatter: 'USL {c}'
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            name: 'LSL',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#64A600',
+                                    label: {
+                                        formatter: 'LSL  {c}'
+                                    }
+                                }
+                            }
+                        }
+
+                        //{ name: '目标值', yAxis: 0.90 }
+                    ]
+                }
+            }]
+        };
+        sampleRunChart.setOption(sampleRunChartOption);
+
+        //平均值
+        avgRunChartOption = {
+            title: {
+                text: '平均值图',
+                subtext: ''
+            },
+            grid: {
+                left: 80,
+                right: 120
+            },
+            tooltip: {
+                trigger: 'item',
+                showDelay: 0,
+                formatter: function (params) {
+                    if (params.value.length > 1) {
+                        return params.name + '<br/>' +
+                            params.seriesName + ':<br/>' +
+                            params.value[1];
+                    } else {
+                        return params.name + '<br/>' +
+                            params.seriesName + ':<br/>' +
+                            params.value;
+                    }
+                }
+            },
+            legend: {
+                left: 'center',
+                data: ['平均值', '样本值']
+            },
+            calculable: true,
+
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: []
+            },
+            yAxis: {
+                type: 'value',
+                name: '均值',
+                scale: true,
+                nameLocation: 'middle',
+                nameGap: 50
+            },
+            series: [{
+                    name: '平均值',
+                    type: 'line',
+                    symbol: 'circle',
+                    symbolSize: 8,
+                    itemStyle: {
+                        normal: {
+                            color: '#3398DB'
+                        }
+                    },
+                    data: [],
+                    markPoint: {
+                        data: [{
+                                type: 'max',
+                                name: '最大值'
+                            },
+                            {
+                                type: 'min',
+                                name: '最小值'
+                            }
+                        ]
+                    },
+                    markLine: {
+                        precision: 5,
+                        data: [{
+                                name: 'Target',
+                                yAxis: 0,
+                                itemStyle: {
+                                    normal: {
+                                        color: '#64A600',
+                                        label: {
+                                            formatter: 'Target  {c}'
+                                        }
+                                    },
+                                    precision: 4
+                                },
+                                lineStyle: {
+                                    normal: {
+                                        type: 'solid'
+                                    }
+                                }
+                            },
+                            {
+                                name: 'USL',
+                                yAxis: 0,
+                                itemStyle: {
+                                    normal: {
+                                        color: '#64A600',
+                                        label: {
+                                            formatter: 'USL {c}'
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                name: 'LSL',
+                                yAxis: 0,
+                                itemStyle: {
+                                    normal: {
+                                        color: '#64A600',
+                                        label: {
+                                            formatter: 'LSL  {c}'
+                                        }
+                                    }
+                                }
+                            }
+
+                            //{ name: '目标值', yAxis: 0.90 }
+                        ]
+                    }
+                },
+                {
+                    name: '样本值',
+                    type: 'scatter',
+
+                    symbolSize: 7,
+                    itemStyle: {
+                        normal: {
+                            color: '#ADADAD'
+                        }
+                    },
+                    data: []
+                }
+            ]
+        };
+        avgRunChart.setOption(avgRunChartOption);
+
+
+        //合格率趋势图
+        passRateRunChartOption = {
+            title: {
+                text: '合格率趋势图',
+                subtext: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            grid: {
+                left: 80,
+                right: 120
+            },
+            //legend: {
+            //    left:'right',
+            //    data: ['平均值']
+            //},
+            calculable: true,
+
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: []
+            },
+            yAxis: {
+                type: 'value',
+                name: '合格率',
+                scale: true,
+                nameLocation: 'middle',
+                nameGap: 50,
+                max: 1
+
+            },
+            series: [{
+                name: '合格率',
+                type: 'line',
+                symbol: 'circle',
+                symbolSize: 8,
+                itemStyle: {
+                    normal: {
+                        color: '#3398DB'
+                    }
+                },
+                data: [],
+                markPoint: {
+                    data: [{
+                            type: 'max',
+                            name: '最大值'
+                        },
+                        {
+                            type: 'min',
+                            name: '最小值'
+                        }
+                    ]
+                },
+                markLine: {
+                    precision: 3,
+                    data: [{
+                            //name: '合格率',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#64A600',
+                                    label: {
+                                        formatter: '合格率 100%'
+                                    }
+                                },
+                                precision: 4
+                            },
+                            lineStyle: {
+                                normal: {
+                                    type: 'solid'
+                                }
+                            }
+                        },
+                        {
+                            //name: '合格率',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#64A600',
+                                    label: {
+                                        formatter: '合格率 90%'
+                                    }
+                                }
+                            },
+                            lineStyle: {
+                                normal: {
+                                    type: 'solid'
+                                }
+                            }
+                        },
+                        {
+                            //name: '合格率',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#0072E3',
+                                    label: {
+                                        formatter: '合格率 80%'
+                                    }
+                                }
+                            },
+                            lineStyle: {
+                                normal: {
+                                    type: 'solid'
+                                }
+                            }
+                        },
+                        {
+                            //name: '合格率',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#B87070',
+                                    label: {
+                                        formatter: '合格率 70%'
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            //name: '合格率',
+                            yAxis: 0,
+                            itemStyle: {
+                                normal: {
+                                    color: '#FF2D2D',
+                                    label: {
+                                        formatter: '合格率 60%'
+                                    }
+                                }
+                            }
+                        }
+
+                        //{ name: '目标值', yAxis: 0.90 }
+                    ]
+                }
+            }]
+        };
+        passRateRunChart.setOption(passRateRunChartOption);
+    }
+
+    drawChart();
+    //setCPK();
+
+    //控制图-平均值
+    $(function () {
+        $("#tab-category").Huitab({
+            index: 0
+        });
+    });
+
+    //描绘图形
+    function drawChart() {
+        
+        var data = DataCalculate(analysisData);
+
+
+        if (data.Success) {
+            //样品运行图
+            var a = [];
+            var b = [];
+            var c = [];
+            sampleRunChartOption.series[0].data = []; //    清空折线数据
+            for (var i = 0; i < data.Num; i++) {
+                for (var j = 0; j < data.GroupSize; j++) {
+                    a.push((i + 1).toString());
+                }
+            }
+            for (var i = 0; i < data.array.length; i++)
+                b.push(data.array[i]);
+            sampleRunChartOption.xAxis.data = a;
+
+            //判断是否超出界限 超出设置图标样式
+            for (var i = 0; i < data.array.length; i++) {
+                var boxNum = [];
+                if (b[i] > data.USL || b[i] < data.LSL) {
+                    boxNum = {
+                        value: b[i],
+                        itemStyle: {
+                            normal: {
+                                color: 'red'
+                            }
+                        },
+                        symbolSize: 10
+                    };
+                    sampleRunChartOption.series[0].data.push(boxNum);
+                } else
+                    sampleRunChartOption.series[0].data.push(b[i]);
+            }
+
+            //图表可视范围
+            max = Math.max.apply(Math, b);
+            min = Math.min.apply(Math, b);
+            max = max > data.USL ? max : data.USL;
+            min = max < data.LSL ? min : data.LSL;
+            sampleRunChartOption.yAxis.max = max;
+            sampleRunChartOption.yAxis.min = min;
+            sampleRunChartOption.series[0].markLine.data[0].yAxis = data.Target;
+            sampleRunChartOption.series[0].markLine.data[1].yAxis = data.USL;
+            sampleRunChartOption.series[0].markLine.data[2].yAxis = data.LSL;
+            sampleRunChart.setOption(sampleRunChartOption);
+
+
+            //平均值运行图
+            a = [];
+            b = [];
+            c = [];
+            var max, min;
+            avgRunChartOption.series[0].data = []; //    清空折线数据
+            for (var i = 0; i < data.Num; i++) {
+                a.push(i + 1);
+                b.push(data.DataList[i].GroupAvg);
+            }
+            for (var i = 0; i < data.Num; i++) //散点图数据
+            {
+                for (var j = 0; j < data.GroupSize; j++) {
+                    c[i * data.GroupSize + j] = [i, data.array[i * data.GroupSize + j]];
+                }
+            }
+            avgRunChartOption.xAxis.data = a;
+            avgRunChartOption.series[1].data = c;
+
+            //判断是否超出界限 超出设置图标样式
+            for (var i = 0; i < data.Num; i++) {
+                var boxNum = [];
+                if (b[i] > data.USL || b[i] < data.LSL) {
+                    boxNum = {
+                        value: b[i],
+                        itemStyle: {
+                            normal: {
+                                color: 'red'
+                            }
+                        },
+                        symbolSize: 10
+                    };
+                    avgRunChartOption.series[0].data.push(boxNum);
+                } else
+                    avgRunChartOption.series[0].data.push(b[i]);
+            }
+
+            //图表可视范围
+            max = Math.max.apply(Math, b);
+            min = Math.min.apply(Math, b);
+            max = max > data.USL ? max : data.USL;
+            min = max < data.LSL ? min : data.LSL;
+            avgRunChartOption.yAxis.max = max;
+            avgRunChartOption.yAxis.min = min;
+
+            avgRunChartOption.series[0].markLine.data[0].yAxis = data.Target;
+            avgRunChartOption.series[0].markLine.data[1].yAxis = data.USL;
+            avgRunChartOption.series[0].markLine.data[2].yAxis = data.LSL;
+
+            avgRunChart.setOption(avgRunChartOption);
+
+            //控制图Frist
+            if (analysisData.chartType == "XS" || analysisData.chartType == "XR" || analysisData.chartType ==
+                "IMR") {
+                var a = [];
+                var b = [];
+                var max, min;
+                for (var i = 0; i < data.Num; i++) {
+                    a.push((i + 1).toString());
+                    b.push(data.DataList[i].GroupAvg);
+                }
+                firstControlChartOption.xAxis.data = a;
+                firstControlChartOption.series[0].markLine.data[0].yAxis = data.FirstUCL;
+                firstControlChartOption.series[0].markLine.data[1].yAxis = data.FirstLCL;
+                firstControlChartOption.series[0].markLine.data[2].yAxis = data.FirstTarget;
+                firstControlChartOption.series[0].markLine.data[3].yAxis = data.USL;
+                firstControlChartOption.series[0].markLine.data[4].yAxis = data.LSL;
+                firstControlChartOption.series[0].markLine.data[5].yAxis = data.Target;
+                //firstControlChartOption.series[0].markLine.data[6].yAxis = data.X_avgs;
+
+                //图表可视范围
+                max = Math.max.apply(Math, b);
+                min = Math.min.apply(Math, b);
+                max = (max > data.USL ? max : data.USL) > data.FirstUCL ? (max > data.USL ? max :
+                    data.USL) : data.FirstUCL;
+                min = (min < data.LSL ? min : data.LSL) < data.FirstLCL ? (min < data.LSL ? min :
+                    data.LSL) : data.FirstLCL;
+                firstControlChartOption.yAxis.max = max;
+                firstControlChartOption.yAxis.min = min;
+
+
+                firstControlChartOption.series[0].data = [];
+                for (var i = 0; i < data.Num; i++) {
+                    var boxNum = [],
+                        flag = 0;
+                    for (var j = 0; j < data.GroupSize; j++) {
+                        if (data.DataList[i].Status == 1) {
+                            boxNum = {
+                                value: b[i],
+                                itemStyle: {
+                                    normal: {
+                                        color: 'red'
+                                    }
+                                },
+                                symbolSize: 10
+                            };
+                            flag = 1;
+                        }
+
+                    }
+                    if (flag == 1)
+                        firstControlChartOption.series[0].data.push(boxNum);
+                    else
+                        firstControlChartOption.series[0].data.push(b[i]);
+                }
+
+                firstControlChart.setOption(firstControlChartOption);
+            }
+
+            $(".Total").html(data.array.length);
+            $(".X_Avg").html(data.X_avgs);
+            $(".GroupSize").html(data.GroupSize);
+            $(".USL").html(data.USL);
+            $(".Target").html(data.Target);
+            $(".LSL").html(data.LSL);
+            $(".GroupSTDEVA").html(data.GroupSTDEVA);
+            $(".Group").html(data.Num);
+            $(".PPM").html(data.PPM);
+            $(".PPM_LSL").html(data.underLSL);
+            $(".PPM_USL").html(data.upUSL);
+            $(".GroupPPM").html(data.GroupPPM);
+            $(".GroupUpUSL").html(data.GroupUpUSL);
+            $(".GroupUnderLSL").html(data.GroupUnderLSL);
+
+
+
+            //控制图Second-极差控制图
+            if (analysisData.chartType == "XR") {
+                var a = [];
+                var d = [];
+                secondControlChartOption.series[0].data = []; //    清空折线数据
+                var max, min;
+
+                for (var i = 0; i < data.Num; i++) {
+                    a.push((i + 1).toString());
+                    d.push(data.DataList[i].GroupRange);
+                }
+
+                secondControlChartOption.xAxis.data = a;
+                //RangeOption.series[0].data = c;
+                if (analysisData.groupSize != 1) {
+                    for (var i = 0; i < data.Num; i++) {
+                        var boxNum = [];
+                        if (d[i] > data.SecondUCL || d[i] < data.SecondLCL) {
+                            boxNum = {
+                                value: d[i],
+                                itemStyle: {
+                                    normal: {
+                                        color: 'red'
+                                    }
+                                },
+                                symbolSize: 10
+                            }
+                            secondControlChartOption.series[0].data.push(boxNum);
+                        } else
+                            secondControlChartOption.series[0].data.push(d[i]);
+                    }
+                }
+                //若样本容量=1，则是移动极差
+                else if (analysisData.groupSize == 1) {
+                    for (var i = 0; i < data.Num; i++) {
+                        var boxNum = [];
+                        if (d[i] > data.SecondUCL || d[i] < data.SecondLCL) {
+                            boxNum = {
+                                value: d[i],
+                                itemStyle: {
+                                    normal: {
+                                        color: 'red'
+                                    }
+                                },
+                                symbolSize: 10
+                            }
+                            if (i == 0)
+                                secondControlChartOption.series[0].data.push("");
+                            else
+                                secondControlChartOption.series[0].data.push(boxNum);
+                        } else
+                        if (i == 0)
+                            secondControlChartOption.series[0].data.push("");
+                        else
+                            secondControlChartOption.series[0].data.push(d[i]);
+                    }
+                }
+
+                //图表可视范围
+                max = Math.max.apply(Math, d);
+                min = Math.min.apply(Math, d);
+                max = max > data.SecondUCL ? max : data.SecondUCL;
+                min = min < data.SecondLCL ? min : data.SecondLCL;
+                secondControlChartOption.yAxis.max = max;
+                secondControlChartOption.yAxis.min = min;
+
+                secondControlChartOption.series[0].markLine.data[0].yAxis = data.SecondTarget
+                secondControlChartOption.series[0].markLine.data[1].yAxis = data.SecondUCL;
+                secondControlChartOption.series[0].markLine.data[2].yAxis = data.SecondLCL;
+                // secondControlChartOption.series[0].markLine.data[3].yAxis = data.R_avgs;
+
+                secondControlChart.setOption(secondControlChartOption);
+            }
+
+            //控制图-移动极差控制图
+            if (analysisData.chartType == "IMR") {
+                var a = [];
+                var b = [];
+                var max, min;
+
+                for (var i = 0; i < data.Num; i++) {
+                    a.push((i + 1).toString());
+                    b.push(data.DataList[i].GroupRange);
+                }
+                MovingRangeControlChartOption.xAxis.data = a;
+                //RangeOption.series[0].data = c;
+
+                MovingRangeControlChartOption.series[0].data = [];
+
+                for (var i = 0; i < data.Num; i++) {
+                    var boxNum = [];
+                    if (b[i] > data.SecondUCL || b[i] < data.SecondLCL) {
+                        boxNum = {
+                            value: b[i],
+                            itemStyle: {
+                                normal: {
+                                    color: 'red'
+                                }
+                            },
+                            symbolSize: 10
+                        }
+                        if (i == 0)
+                            MovingRangeControlChartOption.series[0].data.push("");
+                        else
+                            MovingRangeControlChartOption.series[0].data.push(boxNum);
+                    } else
+                    if (i == 0)
+                        MovingRangeControlChartOption.series[0].data.push("");
+                    else
+                        MovingRangeControlChartOption.series[0].data.push(b[i]);
+                }
+
+                //图表可是范围
+                max = Math.max.apply(Math, b);
+                min = Math.min.apply(Math, b);
+                max = max > data.SecondUCL ? max : data.SecondUCL;
+                min = max < data.SecondLCL ? min : data.SecondLCL;
+                MovingRangeControlChartOption.yAxis.max = max;
+                MovingRangeControlChartOption.yAxis.min = min;
+
+                MovingRangeControlChartOption.series[0].markLine.data[0].yAxis = data.SecondTarget
+                MovingRangeControlChartOption.series[0].markLine.data[1].yAxis = data.SecondUCL;
+                MovingRangeControlChartOption.series[0].markLine.data[2].yAxis = data.SecondLCL;
+                //MovingRangeControlChartOption.series[0].markLine.data[3].yAxis = data.R_avgs;
+
+
+                MovingRangeControlChart.setOption(MovingRangeControlChartOption);
+            }
+
+            //控制图-标准差
+            if (analysisData.chartType == "XS") {
+                var a = [];
+                var b = [];
+                var max, min;
+
+                for (var i = 0; i < data.Num; i++) {
+                    a.push((i + 1).toString());
+                    b.push(data.DataList[i].GroupStdev);
+                }
+                stdevControlChartOption.xAxis.data = a;
+                stdevControlChartOption.series[0].data = [];
+
+                for (var i = 0; i < data.Num; i++) {
+                    var boxNum = [];
+                    if (b[i] > data.SecondUCL || b[i] < data.SecondLCL) {
+                        boxNum = {
+                            value: b[i],
+                            itemStyle: {
+                                normal: {
+                                    color: 'red'
+                                }
+                            },
+                            symbolSize: 10
+                        };
+                        stdevControlChartOption.series[0].data.push(boxNum);
+                    } else
+                        stdevControlChartOption.series[0].data.push(b[i]);
+                }
+
+                //图表可是范围
+                max = Math.max.apply(Math, b);
+                min = Math.min.apply(Math, b);
+                max = max > data.SecondUCL ? max : data.SecondUCL;
+                min = max < data.SecondLCL ? min : data.SecondLCL;
+                stdevControlChartOption.yAxis.max = max;
+                stdevControlChartOption.yAxis.min = min;
+                stdevControlChartOption.series[0].markLine.data[0].yAxis = data.SecondTarget;
+                stdevControlChartOption.series[0].markLine.data[1].yAxis = data.SecondUCL;
+                stdevControlChartOption.series[0].markLine.data[2].yAxis = data.SecondLCL;
+                stdevControlChart.setOption(stdevControlChartOption);
+            }
+
+
+            //合格率趋势图
+            var a = [];
+            var b = [];
+            var c = [];
+            passRateRunChartOption.series[0].data = []; //    清空折线数据
+            for (var i = 0; i < data.Num; i++) {
+                a.push(i + 1);
+                var flag = 0;
+                for (var j = 0; j < data.GroupSize; j++) {
+                    if (data.DataList[i].DataInfos[j].Status == 1)
+                        flag++;
+
+                }
+                b[i] = (data.GroupSize - flag) / data.GroupSize;
+            }
+            passRateRunChartOption.xAxis.data = a;
+            passRateRunChartOption.series[0].data = b;
+            passRateRunChartOption.series[0].markLine.data[0].yAxis = 1;
+            passRateRunChartOption.series[0].markLine.data[1].yAxis = 0.9;
+            passRateRunChartOption.series[0].markLine.data[2].yAxis = 0.8;
+            passRateRunChartOption.series[0].markLine.data[3].yAxis = 0.7;
+            passRateRunChartOption.series[0].markLine.data[4].yAxis = 0.6;
+            passRateRunChart.setOption(passRateRunChartOption);
+
+            //设置CPK系列参数
+            $(".Max").html(data.CpkInfo.Maxnum);
+            $(".Min").html(data.CpkInfo.Mininum);
+            $(".InGroupSTDEVA").html(data.CpkInfo.InGroupSTDEVA);
+            $(".Cpk").html(data.CpkInfo.Cpk);
+            $(".Cp").html(data.CpkInfo.Cp);
+            $(".CPL").html(data.CpkInfo.Cpl);
+            $(".CPU").html(data.CpkInfo.Cpu);
+            $(".Ca").html((data.CpkInfo.Ca));
+
+            $(".Pp").html(data.CpkInfo.Pp);
+            $(".Ppk").html(data.CpkInfo.Ppk);
+            $(".PPL").html(data.CpkInfo.PPL);
+            $(".PPU").html(data.CpkInfo.PPU);
+            $(".S_avgs").html(data.CpkInfo.STDEV);
+            $(".Plus3STDEV").html(data.CpkInfo.Plus3STDEV);
+            $(".Minus3STDEV").html(data.CpkInfo.Minus3STDEV);
+            $(".TotalPPM").html(data.TotalPPM);
+            $(".TotalUpUSL").html(data.TotalUpUSL);
+            $(".TotalUnderLSL").html(data.TotalUnderLSL);
+
+
+            //加载表格
+            loadTable(data.DataList, analysisData.groupSize);
+
+            //正态分布图
+            setCPK(data);
+            setTimeout(function () {
+                if (window.parent.resizeSpcFrame) {
+                    var height = 357 + 32 + 20 + $('#tableHeight').height() + 130;
+                    window.parent.resizeSpcFrame(height)
+                    clearTimeout(this);
+                }
+            }, 500);
+        }
+    }
+
+
+
+    //样本添加
+    function sampleAdd() {
+
+        var str = '';
+        for (var i = 1; i <= parseInt(analysisData.groupSize); i++) {
+            str +=
+                ' <div class="clear"></div> <div class="row cl"><label class="form-label col-xs-4 col-sm-4 text-r"><span class="c-red">*</span>样本' +
+                i +
+                '：</label><div class="formControls col-xs-6 col-sm-6"><input type="text" class="B_clear input-text" value="" placeholder="" name="sample"> </div> </div>';
+        }
+        $("#sample_add").html(str);
+
+        //iframe层-禁滚动条
+        layer.open({
+            type: 1,
+            offset: 't' //具体配置参考：offset参数项
+                ,
+            content: $("#sample_add"), //iframe的url
+            btn: '提交',
+            btnAlign: 'c' //按钮居中
+                ,
+            area: ['400px', '350px'],
+            yes: function (index) {
+                var sample = [];
+                var groupVal = false; //判断输入数据不能为空
+
+                $("input[name='sample']").each(function (i) {
+                    if ($(this).val() == "") {
+                        groupVal = true;
+                    }
+                });
+                if (groupVal) {
+                    layer.msg('数据不能为空');
+                    return;
+                }
+
+                //用户输入的新数据，用于存储到平台
+                var newData = [];
+
+                $("input[name='sample']").each(function (index, item) {
+                    newData.push(parseFloat($(this).val())); //
+                });
+
+
+                //**************************调用平台存储数据******************************* 惠平你这里改一下换成你们后台接口存储数据
+                $.ajax({
+                    url: '平台接口',
+                    type: 'POST',
+                    data: {
+                        data: newData
+                    },
+                    success: function (data) {
+                        if (data.Success) {
+                            //成功调用spc后台进行数据分析
+                            analysisData.data.push(...newData); //填进数据用于调用后台数据分析
+                            drawChart();
+                            layer.close(index);
+                        } else {
+                            layer.alert('存储失败');
+                        }
+                    }
+                });
+
+
+            }
+        });
+    }
+
+    //设置正态分布图
+    function setCPK(info) {
+        // let state = true;
+        // for(let i=0;i<info.array;i++){
+        // if(info.array[i] != 0){
+        // state = false;
+        // break
+        // }
+        // }
+        // if(state){
+        // // window.parent.noData()
+        // return;
+        // }
+        var girth = [];
+        var i;
+        girth.push(...info.array);
+        //插入曲线图数据
+        var lineData = [];
+        for (i = 0; i < info.xValue.length; i++) {
+            lineData.push([info.xValue[i], info.yValue[i]]);
+        }
+
+
+        // See https://github.com/ecomfe/echarts-stat
+        if (girth.length < 5)
+            return;
+        var bins = ecStat.histogram(girth);
+
+        var interval;
+        var min = Infinity;
+        var max = -Infinity;
+
+        data = echarts.util.map(bins.data, function (item, index) {
+            var x0 = bins.bins[index].x0;
+            var x1 = bins.bins[index].x1;
+            interval = x1 - x0;
+            min = Math.min(min, x0);
+            max = Math.max(max, x1);
+            return [x0, x1, item[1]];
+        });
+
+        min = min >= info.CpkInfo.LSL ? info.CpkInfo.LSL : min - interval;
+
+        max = max >= info.CpkInfo.USL ? max + interval : info.CpkInfo.USL;
+
+        min = min >= info.CpkInfo.AvgMinus3Sigma ? parseFloat(info.CpkInfo.AvgMinus3Sigma.toFixed(2)) : min;
+        max = max >= info.CpkInfo.AvgPlus3Sigma ? max : parseFloat(info.CpkInfo.AvgPlus3Sigma.toFixed(2));
+
+        $('#CPK').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'CPK'
+            },
+            exporting: {
+                enabled:false,
+            },
+            xAxis: {
+                labels: {
+                    // enabled: false
+                    y:20,
+                    step:1,
+                    style:{
+                        "font-size": "12px", 
+                    }
+                },
+                min: min,
+                max: max,
+                plotLines: [
+                    {
+                        color: '#418FEE',
+                        width: 2,
+                        dashStyle: 'Dot', //Dash,Dot,Solid,默认Solid
+                        value: parseFloat(info.Target),
+                        label: {
+                            text: 'M  ' + info.Target,
+                            align: 'left',  // 决定定位点
+                            y: 0
+                        },
+                        zIndex: 5
+                    },
+                    {
+                        color: '#418FEE',
+                        width: 2,
+                        dashStyle: 'Dot', //Dash,Dot,Solid,默认Solid
+                        label: {
+                            text: 'USL  ' + info.CpkInfo.USL,
+                            align: 'left',  // 决定定位点
+                            y: 0
+                        },
+                        value: info.CpkInfo.USL,  //x轴显示位置，一个标记为1
+                        zIndex: 5
+                    },
+                    {
+                        color: '#418FEE',
+                        width: 2,
+                        dashStyle: 'Dot', //Dash,Dot,Solid,默认Solid
+                        label: {
+                            text: 'LSL  ' + info.CpkInfo.LSL,
+                            align: 'left',  // 决定定位点
+                            y: 0
+                        },
+                        value: info.CpkInfo.LSL,  //x轴显示位置，一个标记为1
+                        zIndex: 5
+                    }
+
+                ]
+            },
+            yAxis: [{
+                title: {
+                    text: ''
+                },
+                labels: {
+                    enabled: false
+                }   
+            },
+            {
+                title: {
+                    text: ''
+                },
+                labels: {
+                    enabled: false
+                }   
+                //opposite: true
+            },
+            {
+                labels: {
+                    enabled: false
+                },   
+                title: {
+                    text: ''
+                }
+
+                //opposite: true
+            }
+            ],
+            legend: {
+                enabled:false,
+            },
+            plotOptions: {
+                spline: {
+                    marker: {
+                        enabled: false
+                        //radius: 10
+                    }
+                }
+            },
+            series: [
+                {
+                    name: '直方图',
+                    type: 'histogram',
+                    //xAxis: 1,
+                    //yAxis: 1,
+                    //data: data,
+                    baseSeries: 's1',
+                    zIndex: -1
+                },
+                {
+                    name: '正态分布曲线',
+                    type: 'spline',
+                    color: '#FFBA31',
+                    data: lineData,
+                    yAxis: 1
+                },
+                {
+                    name: 'Data',
+                    type: 'scatter',
+                    data: girth,
+                    id: 's1',
+                    yAxis: 2,
+                    marker: {
+                        radius: 0
+                    }
+                }
+            ]
+        });
+    }
+    $(document).ready(function () {
+        var height = 357 + 32 + 20 + $('.example1').height();
+        window.parent.resizeSpcFrame(height)
+    })
+    setTimeout(function () {
+        if (window.parent.resizeSpcFrame) {
+            var height = 357 + 32 + 20 + $('#tableHeight').height() + 130;
+            window.parent.resizeSpcFrame(height)
+            clearTimeout(this);
+        }
+    }, 500);
+</script>

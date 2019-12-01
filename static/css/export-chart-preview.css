@@ -1,0 +1,273 @@
+.print-not-show{
+  display: none;
+}
+.export-chart-preview {
+  padding-bottom: 48px
+}
+.export-chart-preview .ivu-line {
+    padding-bottom: 3px;
+}
+.export-chart-preview .report-main{
+    margin-top: 10px;
+    margin-right: 10px;
+    background-color: #fff;
+    color: #333;
+}
+.export-chart-preview .iqis-table-no-data{
+    text-align: center;
+    color: #333;
+    font-size: 16px;
+}
+.export-chart-preview .dashboard-report-title-cell {
+    font-size: 32px;
+    line-height: 40px;
+    text-align: center;
+}
+.export-chart-preview .dashboard-report-title-table,
+.export-chart-preview .dashboard-report-total-table,
+.export-chart-preview .exam-report-title-table,
+.export-chart-preview .exam-report-datas-table,
+.export-chart-preview .dashboard-report-footer{
+  width: 100%;
+  border: 0;
+  border-collapse:collapse;
+}
+.export-chart-preview .dashboard-report-border{
+    border: 1px solid #666;
+    margin-bottom: 10px;
+}
+.export-chart-preview .dashboard-report-title-table .dashboard-report-date-cell{
+  text-align: center;
+}
+.export-chart-preview .dashboard-report-total-border{
+  border: 1px solid #666;
+  margin-left: 18px;
+  margin-right: 18px;
+  padding: 6px 10px;
+}
+.export-chart-preview .exam-total-item{
+  margin-right: 30px;
+}
+.export-chart-preview .total-label{
+    padding-right: 8px;
+}
+.export-chart-preview .dashboard-report-title-table td{
+  border: 0;
+  vertical-align: bottom;
+  line-height: 30px;
+  border-collapse: collapse;
+}
+.export-chart-preview .exam-report-title-table .exam-report-title-cell,
+.export-chart-preview .dashboard-report-title-table .dashboard-report-title-cell{
+  font-size: 32px;
+  line-height: 40px;
+  text-align: center;
+}
+.export-chart-preview .dashboard-report-datas-div {
+  width: 100%;
+  padding: 0 12px;
+  margin-top: 10px;
+}
+.export-chart-preview .exam-report-datas-table {
+  border: 1px;
+  border-color: #333;
+}
+.export-chart-preview .exam-report-datas-table th,
+.export-chart-preview .exam-report-datas-table td{
+  border: 1px solid #333;
+  padding: 3px;
+  text-align: center;
+}
+.export-chart-preview .exam-report-datas-table th{
+  background-color: #efefef;
+}
+.export-chart-preview .exam-report-datas-table td.table-gap,
+.export-chart-preview .exam-report-datas-table th.table-gap{
+  border-top: 0;
+  border-bottom: 0;
+  width: 10px;
+  background-color: #fff;
+}
+.export-chart-preview .dashboard-report-footer{
+  margin: 10px 12px;
+}
+.export-chart-preview .report-export-btn {
+  display: none;
+}
+
+/* 2018/7/4 */
+.ivu-radio-group-button .ivu-radio-wrapper,
+.ivu-radio-group-button .ivu-radio-wrapper:first-child{
+    border:0;
+    font-size: 14px!important;
+    box-shadow: none;
+}
+.ivu-radio-group-button .ivu-radio-wrapper-checked,
+.ivu-radio-group-button .ivu-radio-wrapper-checked.ivu-radio-focus,
+.ivu-radio-group-button .ivu-radio-wrapper-checked.ivu-radio-focus:first-child{
+    box-shadow:none!important;      
+}
+
+.ivu-radio-group-button .ivu-radio-wrapper:after, 
+.ivu-radio-group-button .ivu-radio-wrapper:before,
+.ivu-radio-group-button .ivu-radio-wrapper-checked:before{
+    background: transparent!important;
+}
+.ivu-radio-group-button .ivu-radio-wrapper{
+    height:34px!important;
+    line-height: 32px!important;
+    padding:0 12px 0 8px!important;
+    border:1px solid transparent!important;
+    margin-right:10px;
+}
+.ivu-radio-group-button .ivu-radio-wrapper-checked{
+    border-radius:2px!important;
+    border:1px solid rgba(65,143,238,1)!important;
+}
+.export-chart-preview .ivu-line{
+    padding:0;
+    height: 34px!important;
+    line-height:34px;
+    margin-bottom:10px;
+}
+.export-chart-preview .ivu-line>label{
+    margin-right:20px;
+}
+.table th, .table td {
+  color: #5C5C5C!important;
+  font-weight: normal;
+  /* height: 34px; */
+  padding: 0;
+  font-size: 14px;
+  border-color: #E9E9E9;
+}
+
+.table{
+  padding-right: 0px !important;
+  
+}
+div.example1#tableHeight{
+  overflow-y: hidden !important;
+}
+em {
+  font-style: normal !important;
+}
+
+#chartNote{
+  /* display: none !important; */
+}
+/* .tablestyle{
+  width: 800px !important;
+} */
+.w{
+  width: 769px !important;
+}
+.cpk_node .cpk_list>.cpk_li{
+  padding-right: 0px !important;
+  
+}
+.cpk_node .cpk_list>li {
+  box-sizing: border-box;
+  text-align: left;
+  padding-left: 10px !important;
+
+}
+.Chart_note span {
+  padding: 0 !important;
+  font-size: 12px !important;
+  color: #5c5c5c !important;
+  text-align: left !important;
+}
+.cpk_node{
+  color: red;
+  position: absolute !important;
+  top: 10px !important;
+  width: 800px !important;
+  margin-left: 450px !important;
+}
+div .cpk_list{
+
+}
+
+
+#exam-report .imgBox>img,#exam-report .imgBox>div{
+  width:100%;
+}
+#exam-report .ivu-col-span-6{
+  width:25%;
+  box-sizing: border-box;
+  float: left;
+}
+#exam-report .ivu-col-span-12{
+  width:50%;
+  box-sizing: border-box;
+  float: left;
+}
+#exam-report .ivu-col-span-10{
+  width:40%;
+  box-sizing: border-box;
+  float: left;
+}
+#exam-report .ivu-col-span-4{
+  width:20%;
+  box-sizing: border-box;
+  float: left;
+}
+#exam-report .ivu-col-span-8{
+  width:33.33%;
+  box-sizing: border-box;
+  float: left;
+}
+#exam-report .ivu-col-span-12 .ivu-card{
+  height:168px!important;
+}
+#exam-report .ivu-col-span-4 .ivu-card{
+  height:84px!important;
+}
+.cpkNote{
+  margin-top:20px;
+}
+.cpkNote .ivu-row{
+  display:flex;
+}
+.cpkNote>.ivu-col{
+  margin-bottom:24px;
+}
+.cpkNote .ivu-card{
+  border:1px solid #e9eaec;
+  border-radius: 4px;
+}
+.cpkNote .ivu-card-head {
+    padding: 5px 0;
+    text-align: center;
+    border-bottom: 1px solid #e9eaec;
+}
+.cpkNote .ivu-card-head p{
+  margin-bottom:0
+}
+.cpkNote .ivu-card-body {
+    font-size: 12px;
+    color: #8B8B8B;
+    line-height: 22px;
+    padding: 5px 10px;
+}
+#exam-report .ivu-table-fixed{
+  display: none;
+}
+
+#exam-report .ivu-table-header th{
+  border:1px solid #e9eaec;
+  border-bottom:0;
+  text-align:center;
+  line-height:30px;
+  background-color:#eee;
+  font-weight: bold;
+}
+#exam-report .ivu-table-body td{
+  border:1px solid #e9eaec;
+  text-align:center;
+  line-height:26px;
+}
+#exam-report table{
+  width:100%!important;
+}

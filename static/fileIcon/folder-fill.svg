@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="17px" viewBox="0 0 20 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>folder-fill</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="文控中心-回收站" transform="translate(-355.000000, -320.000000)">
+            <g id="文件名" transform="translate(338.000000, 259.000000)">
+                <g id="folder-fill" transform="translate(17.000000, 60.000000)">
+                    <rect id="Rectangle-37-Copy-16" x="0" y="0" width="20" height="20"></rect>
+                    <g transform="translate(0.000000, 1.666667)" fill="#FFD666" fill-rule="nonzero" id="Shape">
+                        <path d="M19.2,2.84837398 L10.225,2.84837398 L7.2925,0.0547764228 C7.255,0.0199186992 7.205,0 7.155,0 L0.8,0 C0.3575,0 0,0.356046748 0,0.796747967 L0,15.5365854 C0,15.9772866 0.3575,16.3333333 0.8,16.3333333 L19.2,16.3333333 C19.6425,16.3333333 20,15.9772866 20,15.5365854 L20,3.64512195 C20,3.20442073 19.6425,2.84837398 19.2,2.84837398 Z"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

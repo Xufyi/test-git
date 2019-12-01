@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="8px" viewBox="0 0 12 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>down</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="统计分析_统计图表_控制图（CPK参数图）" transform="translate(-1403.000000, -20.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <g id="head-">
+                <g id="Group-57" transform="translate(1400.968750, 16.000000)">
+                    <g id="down" transform="translate(2.001563, 4.000000)">
+                        <path d="M12.0046838,0.6890625 C12.0046838,0.8390625 11.9546448,0.990625 11.8545667,1.1171875 L6.52384277,7.7390625 C6.39405396,7.9 6.19858887,7.99375 5.99061401,7.99375 C5.78420288,7.99375 5.58717407,7.9 5.45894897,7.7390625 L0.15637207,1.1453125 C-0.0797497559,0.8515625 -0.0328381348,0.421875 0.261141357,0.1859375 C0.55512085,-0.05 0.985144043,-0.003125 1.22126587,0.290625 L5.99217773,6.221875 L10.7896729,0.2609375 C11.0257947,-0.0328125 11.4558179,-0.0796875 11.7497974,0.15625 C11.9171155,0.2921875 12.0046838,0.4890625 12.0046838,0.6890625 Z" id="Shape"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="13px" viewBox="0 0 12 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>统计分析 icon copy</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="侧边栏" transform="translate(-22.000000, -388.000000)">
+            <g id="侧边栏深色全展开" transform="translate(0.000000, 47.000000)">
+                <g id="siderbar-一级导航" transform="translate(0.000000, 1.000000)">
+                    <g id="纵向-icon" transform="translate(21.000000, 53.000000)">
+                        <g id="统计分析-icon-copy" transform="translate(1.500000, 287.090909)">
+                            <rect id="Rectangle-48-Copy-27" x="0" y="0" width="12" height="12"></rect>
+                            <g id="piechart" fill="#C0C0C0" fill-rule="nonzero" transform="scale(.87)">
+                                <path d="M5.4668213,11.9999989 C6.97857991,11.9999989 8.34728795,11.3882001 9.33742691,10.3992056 L5.4668213,6.54736822 L5.4668213,1.09679747 C2.44811055,1.09679747 0,3.53666831 0,6.54736822 C0,9.55806813 2.44811055,11.9999989 5.4668213,11.9999989 Z M6.22029736,5.76207771 L11.9999989,5.76207771 C11.9999989,2.57925933 9.41135545,0 6.22029736,0 L6.22029736,5.76207771 Z M6.5272267,6.5272267 L10.4131673,10.3628135 C11.3927778,9.3783966 11.9974812,8.0225059 11.9974812,6.5272267 L6.5272267,6.5272267 Z" id="Shape"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

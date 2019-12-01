@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>zip</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="文控中心-回收站" transform="translate(-355.000000, -442.000000)">
+            <g id="文件名" transform="translate(338.000000, 259.000000)">
+                <g id="zip" transform="translate(17.000000, 183.000000)">
+                    <path d="M18.1309091,20 L1.8690909,20 C1.52717643,20 1.24999999,19.7228236 1.24999999,19.3809091 L1.24999999,17.5 L0,17.5 L0,8.74999999 L1.24999999,8.74999999 L1.24999999,0.61909091 C1.24999999,0.27727272 1.52727271,0 1.8690909,0 L13.1245454,0 L18.75,5.62545454 L18.75,8.74999999 L20,8.74999999 L20,17.5 L18.75,17.5 L18.75,19.3809091 C18.75,19.7228236 18.4728236,20 18.1309091,20 Z M17.5,17.5 L2.49999999,17.5 L2.49999999,18.75 L17.5,18.75 L17.5,17.5 Z M13.1245454,1.24999999 L2.49999999,1.24999999 L2.49999999,8.74999999 L17.5,8.74999999 L17.5,5.62545454 L13.1245454,5.62545454 L13.1245454,1.24999999 Z" id="Shape" fill="#FFA940" fill-rule="nonzero"></path>
+                    <text font-family="HelveticaNeue, Helvetica Neue" font-size="6" font-weight="normal" line-spacing="6" fill="#FFFFFF">
+                        <tspan x="6.16666667" y="15.8115942">zip</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
